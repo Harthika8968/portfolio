@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, send_from_directory
 import sqlite3
 from datetime import datetime
 import os
@@ -56,24 +56,11 @@ def download_resume():
     else:
         return "Resume file not found in static folder", 404
 
-
-# ===== VERY IMPORTANT PART =====
-from flask import Flask, render_template, send_from_directory
-import os
-
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-# Serve certificate files
+# Serve certificate files (optional, Flask already serves static by default)
 @app.route('/static/certificates/<path:filename>')
 def certificates(filename):
     return send_from_directory(os.path.join(app.root_path, 'static/certificates'), filename)
 
-if __name__ == '__main__':
-    app.run(debug=True)
-    
+# Required for Render
 if __name__ == "__main__":
     app.run(debug=True)
